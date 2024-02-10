@@ -40,6 +40,7 @@ final textController = TextEditingController();
             context.read<NoteDatabase>().create(Note(title: textController.text, creationDate: DateTime.now(), lastEditDate: DateTime.now()));
             // NoteDatabase.instance.create({'title': noteTitle, 'content': noteContent});
             Navigator.pop(context);
+            textController.clear();
           }, child: const Text('Ekle')),
         ],
       );
@@ -65,11 +66,13 @@ final textController = TextEditingController();
     body: ListView.builder(itemCount: notes.length, itemBuilder: (context, index) {
       return ListTile(
         title: Text(notes[index].title),
-        subtitle: Text(notes[index].content),
-        trailing: IconButton(icon: const Icon(Icons.delete), onPressed: () {
-          context.read<NoteDatabase>().delete(notes[index]);
-        },),
-      );
+        //subtitle: Text(notes[index].content),
+        trailing: 
+            IconButton(icon: const Icon(Icons.delete), onPressed: () {
+              context.read<NoteDatabase>().delete(notes[index]);
+            },),
+            onTap: () => print('Tapped on ${notes[index].title}'),
+        );
     },),
     floatingActionButton: FloatingActionButton(onPressed: () {
       createNote();
