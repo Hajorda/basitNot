@@ -46,16 +46,36 @@ class NoteDatabase extends ChangeNotifier{
      await fetchNotes();
    }
   }
+
+  //Retrieve all notes
+  Future<List<Note>> retrieveAllNotes() async {
+    return await isar.notes.where().findAll();
+  }
+
+  //Retrieve a single note
+  Future<Note?> retrieveSingleNote(int id) async {
+    return await isar.notes.get(id);
+  }
+
+  //Delete all notes
+  
+  
   //Delete a note
   Future<void> delete(Note note) async {
     await isar.writeTxn(() => isar.notes.delete(note.id));
     await fetchNotes();
   }
 
-  //Retrieve all notes
 
-  //Retrieve a single note
-
-  //Delete all notes
-
+    //Edit content of a note
+  Future<void> editContent(Note note, Note newContent) async {
+    final existingNote = await isar.notes.get(note.id);
+    if(existingNote != null){
+      existingNote.content = newContent.content;
+      existingNote.title = newContent.title;
+      existingNote.lastEditDate = DateTime.now();
+      await isar.writeTxn(() => isar.notes.put(existingNote));
+      await fetchNotes();
+    }
+  }
 }

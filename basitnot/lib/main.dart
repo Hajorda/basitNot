@@ -33,7 +33,8 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home:  EditPage(Note(title: "Merhaba", creationDate: DateTime.now(), lastEditDate: DateTime.now())),
+      home:  notesPage(),
+      //EditPage(Note(title: "Merhaba", creationDate: DateTime.now(), lastEditDate: DateTime.now())),
       debugShowCheckedModeBanner: false,
     );
   }

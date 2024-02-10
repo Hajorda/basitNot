@@ -1,5 +1,6 @@
 import 'package:basitnot/models/note.dart';
 import 'package:basitnot/models/noteDatabase.dart';
+import 'package:basitnot/pages/editPage.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -37,9 +38,16 @@ final textController = TextEditingController();
             Navigator.pop(context);
           }, child: const Text('Vazgeç')),
           TextButton(onPressed: () {
-            context.read<NoteDatabase>().create(Note(title: textController.text, creationDate: DateTime.now(), lastEditDate: DateTime.now()));
+            Note tempNote = Note(
+              title: textController.text,
+              creationDate: DateTime.now(),
+              lastEditDate: DateTime.now(),
+            );
+            context.read<NoteDatabase>().create(tempNote);
+            
             // NoteDatabase.instance.create({'title': noteTitle, 'content': noteContent});
             Navigator.pop(context);
+            Navigator.push(context, MaterialPageRoute(builder: (context) => EditPage(tempNote)),);
             textController.clear();
           }, child: const Text('Ekle')),
         ],
@@ -71,7 +79,12 @@ final textController = TextEditingController();
             IconButton(icon: const Icon(Icons.delete), onPressed: () {
               context.read<NoteDatabase>().delete(notes[index]);
             },),
-            onTap: () => print('Tapped on ${notes[index].title}'),
+            onTap: () => { 
+              print('Tapped on ${notes[index].title}'),
+              Navigator.push(context, MaterialPageRoute(builder: (context) => EditPage(notes[index])),
+              ),
+              
+            },
         );
     },),
     floatingActionButton: FloatingActionButton(onPressed: () {

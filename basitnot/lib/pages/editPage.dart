@@ -1,6 +1,8 @@
 import 'package:basitnot/models/note.dart';
+import 'package:basitnot/models/noteDatabase.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:provider/provider.dart';
 
 class EditPage extends StatefulWidget {
   final Note noteInEditing;
@@ -13,7 +15,6 @@ class EditPage extends StatefulWidget {
 
 class _EditPageState extends State<EditPage> {
 
-  
 
   final _titleController = TextEditingController();
   final _contentController = TextEditingController();
@@ -55,8 +56,9 @@ class _EditPageState extends State<EditPage> {
           leading: BackButton(
               color: Colors.black,
               onPressed: () {
-                Navigator.pop(context);
-                updateNoteObject();              
+                context.read<NoteDatabase>().editContent(widget.noteInEditing, currentNote);
+                updateNoteObject();     
+                Navigator.pop(context);         
               },
             ),
       
