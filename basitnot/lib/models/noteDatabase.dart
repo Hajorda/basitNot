@@ -1,22 +1,24 @@
 import 'package:basitnot/models/note.dart';
+import 'package:flutter/material.dart';
 import 'package:isar/isar.dart';
 import 'package:path_provider/path_provider.dart';
 
-class NoteDatabase{
+class NoteDatabase extends ChangeNotifier{
   static late Isar isar;
   //Initialize the database
   static Future<void> init() async {
     final dir = await getApplicationDocumentsDirectory();
-    isar = await Isar.open([NoteSchema], directory: dir.path);
+
+    isar = await Isar.open(
+      [NoteSchema], 
+      directory: dir.path);
   }
   //Create a new note
   final List<Note> notes = [];
   
   Future<void> create(Note note) async {
-    await isar.writeTxn((isar) async {
-      await isar.notes.put(note);
-    } as Future<dynamic> Function());
-
+    await isar.writeTxn( () => isar.notes.put(note));
+ 
     fetchNotes();
 
   }
@@ -25,6 +27,7 @@ class NoteDatabase{
     final allNotes = await isar.notes.where().findAll();
     notes.clear();
     notes.addAll(allNotes);
+    notifyListeners();
   }
 
   //Update a note
@@ -45,9 +48,7 @@ class NoteDatabase{
   }
   //Delete a note
   Future<void> delete(Note note) async {
-    await isar.writeTxn((isar) async {
-      await isar.notes.delete(note.id);
-    } as Future<dynamic> Function());
+    await isar.writeTxn(() => isar.notes.delete(note.id));
     await fetchNotes();
   }
 

@@ -11,4 +11,11 @@ class Note {
   late DateTime creationDate;
   late DateTime lastEditDate;
 
+  Note({
+    required this.title,
+    required this.creationDate,
+    required this.lastEditDate,
+    this.content = '',
+  });
+
 }

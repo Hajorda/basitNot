@@ -81,12 +81,13 @@ Note _noteDeserialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  final object = Note();
+  final object = Note(
+    creationDate: reader.readDateTime(offsets[1]),
+    lastEditDate: reader.readDateTime(offsets[2]),
+    title: reader.readString(offsets[3]),
+  );
   object.content = reader.readString(offsets[0]);
-  object.creationDate = reader.readDateTime(offsets[1]);
   object.id = id;
-  object.lastEditDate = reader.readDateTime(offsets[2]);
-  object.title = reader.readString(offsets[3]);
   return object;
 }
 
