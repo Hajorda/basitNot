@@ -29,7 +29,7 @@ final textController = TextEditingController();
           onChanged: (value) {
             // noteTitle = value;
           },
-          decoration: const InputDecoration(hintText: 'Not Başlığı'),
+          decoration: const InputDecoration(hintText: 'Not Basligi'),
           controller: textController,
         ),
         actions: <Widget>[

@@ -1,4 +1,8 @@
+// ignore_for_file: unused_import
+
+import 'package:basitnot/models/note.dart';
 import 'package:basitnot/models/noteDatabase.dart';
+import 'package:basitnot/pages/editPage.dart';
 import 'package:flutter/material.dart';
 import 'pages/notesPage.dart';
 import 'package:provider/provider.dart';
@@ -29,7 +33,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const notesPage(),
+      home:  EditPage(Note(title: "Merhaba", creationDate: DateTime.now(), lastEditDate: DateTime.now())),
       debugShowCheckedModeBanner: false,
     );
   }
