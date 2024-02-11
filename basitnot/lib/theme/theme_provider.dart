@@ -4,19 +4,19 @@ import 'package:flutter/material.dart';
 class ThemeProvider with ChangeNotifier {
   
   //Initial Theme
-  ThemeData _themeData = lightMode;
+  ThemeData _td = lightMode;
 
-  ThemeData get themeData => _themeData;
+  ThemeData get themeData => _td;
 
-  bool get isDarkMode => _themeData.brightness == Brightness.dark;
+  bool get isDarkMode => _td.brightness == Brightness.dark;
   
   setTheme(ThemeData theme) {
-    _themeData = theme;
+    _td = theme;
     notifyListeners();
   }
 
   void toggleTheme() {
-    _themeData = _themeData.brightness == Brightness.dark ? ThemeData.light() : ThemeData.dark();
+    _td = _td.brightness == Brightness.dark ? lightMode : darkMode;
     notifyListeners();
   }
 }
