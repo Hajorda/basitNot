@@ -1,7 +1,11 @@
+// ignore_for_file: camel_case_types
+
+import 'package:basitnot/components/drawer.dart';
 import 'package:basitnot/models/note.dart';
 import 'package:basitnot/models/noteDatabase.dart';
 import 'package:basitnot/pages/editPage.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class notesPage extends StatefulWidget {
@@ -70,23 +74,35 @@ final textController = TextEditingController();
     final noteDatabase = context.watch<NoteDatabase>();
     List<Note> notes = noteDatabase.notes;
 
-    return Scaffold(appBar: AppBar(title: Text('Basit Notlar')), 
-    body: ListView.builder(itemCount: notes.length, itemBuilder: (context, index) {
-      return ListTile(
-        title: Text(notes[index].title),
-        //subtitle: Text(notes[index].content),
-        trailing: 
-            IconButton(icon: const Icon(Icons.delete), onPressed: () {
-              context.read<NoteDatabase>().delete(notes[index]);
-            },),
-            onTap: () => { 
-              print('Tapped on ${notes[index].title}'),
-              Navigator.push(context, MaterialPageRoute(builder: (context) => EditPage(notes[index])),
-              ),
-              
-            },
-        );
-    },),
+    return Scaffold(appBar: AppBar( elevation: 0, backgroundColor: Colors.transparent,), 
+    backgroundColor: Theme.of(context).colorScheme.background,
+    drawer: const DrawerWidget(),
+    body: Column( crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // Text
+        Padding(padding: const EdgeInsets.only(left: 25.0),child: Text("Notes ", style: GoogleFonts.dmSerifText(fontSize: 48, color: Theme.of(context).colorScheme.inversePrimary),) ,),
+
+        // List of notes
+        Expanded(
+          child: ListView.builder(itemCount: notes.length, itemBuilder: (context, index) {
+            return ListTile(
+              title: Text(notes[index].title),
+              //subtitle: Text(notes[index].content),
+              trailing: 
+                  IconButton(icon: const Icon(Icons.delete), onPressed: () {
+                    context.read<NoteDatabase>().delete(notes[index]);
+                  },),
+                  onTap: () => { 
+                    print('Tapped on ${notes[index].title}'),
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => EditPage(notes[index])),
+                    ),
+                    
+                  },
+              );
+          },),
+        ),
+      ],
+    ),
     floatingActionButton: FloatingActionButton(onPressed: () {
       createNote();
     }, child: const Icon(Icons.add),),);

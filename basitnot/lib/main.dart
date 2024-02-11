@@ -7,6 +7,10 @@ import 'package:flutter/material.dart';
 import 'pages/notesPage.dart';
 import 'package:provider/provider.dart';
 
+import 'theme/theme_provider.dart';
+
+
+
 void main() async{
 
   WidgetsFlutterBinding.ensureInitialized();
@@ -14,11 +18,12 @@ void main() async{
 
   runApp(
 
-    ChangeNotifierProvider(
-      create: (context) => NoteDatabase(),
-      child: const MyApp(),
-    ),
-  );
+   MultiProvider(providers: [
+     ChangeNotifierProvider(create: (context) => NoteDatabase()),
+     ChangeNotifierProvider(create: (context) => ThemeProvider()),
+   ],
+   child: const MyApp(),
+  ),);
 }
 
 class MyApp extends StatelessWidget {
@@ -29,11 +34,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home:  notesPage(),
+      theme: Provider.of<ThemeProvider>(context).themeData,
+      home:  const notesPage(),
       //EditPage(Note(title: "Merhaba", creationDate: DateTime.now(), lastEditDate: DateTime.now())),
       debugShowCheckedModeBanner: false,
     );
