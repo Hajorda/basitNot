@@ -1,5 +1,6 @@
 // ignore_for_file: unused_import
 
+import 'package:basitnot/auth/loginPage.dart';
 import 'package:basitnot/models/note.dart';
 import 'package:basitnot/models/noteDatabase.dart';
 import 'package:basitnot/pages/editPage.dart';
@@ -35,7 +36,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: Provider.of<ThemeProvider>(context).themeData,
-      home:  const notesPage(),
+      home:  //const notesPage(),
+      const LoginPage(),
       //EditPage(Note(title: "Merhaba", creationDate: DateTime.now(), lastEditDate: DateTime.now())),
       debugShowCheckedModeBanner: false,
     );

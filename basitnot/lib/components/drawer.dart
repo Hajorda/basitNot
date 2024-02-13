@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:basitnot/pages/settingsPage.dart';
 
 class DrawerWidget extends StatelessWidget {
-  const DrawerWidget({Key? key}) : super(key: key);
+  const DrawerWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -12,29 +12,29 @@ class DrawerWidget extends StatelessWidget {
       child: ListView(
         children: [
           DrawerHeader(
-            child: Text('Basit Not'),
             decoration: BoxDecoration(
               color: Theme.of(context).colorScheme.primary,
             ),
+            child: const Text('Basit Not'),
           ),
           ListTile(
-            title: Text('Home Page'),
-            leading: Icon(Icons.home),
+            title: const Text('Home Page'),
+            leading: const Icon(Icons.home),
             onTap: () {
               Navigator.pop(context);
             },
           ),
           ListTile(
-            title: Text('Settings'),
-            leading: Icon(Icons.settings),
+            title: const Text('Settings'),
+            leading: const Icon(Icons.settings),
             onTap: () {
               Navigator.pop(context);
-              Navigator.push(context, MaterialPageRoute(builder: (context) => SettingsPage() ),);
+              Navigator.push(context, MaterialPageRoute(builder: (context) => const SettingsPage() ),);
             },
           ),
           ListTile(
-            title: Text('Change Mode'),
-            leading: Icon(Icons.brightness_6),
+            title: const Text('Change Mode'),
+            leading: const Icon(Icons.brightness_6),
             onTap: () {
                    Provider.of<ThemeProvider>(context, listen: false).toggleTheme();
             },

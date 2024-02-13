@@ -105,6 +105,6 @@ final textController = TextEditingController();
     ),
     floatingActionButton: FloatingActionButton(onPressed: () {
       createNote();
-    }, child: const Icon(Icons.add),),);
+    }, child:  Icon(Icons.add,color: Theme.of(context).colorScheme.inversePrimary),),);
   }
 }

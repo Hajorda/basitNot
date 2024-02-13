@@ -1,12 +1,11 @@
 import 'package:basitnot/models/note.dart';
 import 'package:basitnot/models/noteDatabase.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
 class EditPage extends StatefulWidget {
   final Note noteInEditing;
-  EditPage(this.noteInEditing);
+  const EditPage(this.noteInEditing, {super.key});
   
 
   @override
@@ -54,7 +53,7 @@ class _EditPageState extends State<EditPage> {
         appBar: AppBar(
           title: const Text('Not Düzenle'),
           leading: BackButton(
-              color: Colors.black,
+              color: Theme.of(context).colorScheme.inversePrimary,
               onPressed: () {
                 context.read<NoteDatabase>().editContent(widget.noteInEditing, currentNote);
                 updateNoteObject();     
@@ -65,17 +64,17 @@ class _EditPageState extends State<EditPage> {
             elevation: 1
         ),
         
-        body:  Container(padding: EdgeInsets.only(left: 16, right: 16, top: 12), 
+        body:  Container(padding: const EdgeInsets.only(left: 16, right: 16, top: 12), 
         child: SafeArea(left: true,right: true,top: false,bottom: false, child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
        
        Flexible(child: 
-        Container(color: Colors.amber,
+        Container(
           child: EditableText(
             onChanged: (str) => {updateNoteObject()},
                   maxLines: null,
-                  style: const TextStyle(
-                      color: Colors.black,
-                      fontSize: 22,
+                  style: TextStyle(
+                      color: Theme.of(context).colorScheme.inversePrimary ,
+                      fontSize: 24,
                       fontWeight: FontWeight.bold),
                   cursorColor: Colors.blue,
                   backgroundCursorColor: Colors.blue,
@@ -85,17 +84,18 @@ class _EditPageState extends State<EditPage> {
               
         )),
       
-        const Divider(color: Colors.amber),
+         Divider(color: Theme.of(context).colorScheme.inversePrimary),
       
         Flexible(child: Container(
           child: EditableText(
             onChanged: (str) => {updateNoteObject()},
                   maxLines: 300,
-                  style: TextStyle(color: Colors.black, fontSize: 20),
+                  style: TextStyle(color: Theme.of(context).colorScheme.inversePrimary, fontSize: 17),
                   cursorColor: Colors.blue,
                   backgroundCursorColor: Colors.blue,
                   controller: _contentController,
                   focusNode: _contentFocus,
+                  
                   ),
               
         )),
