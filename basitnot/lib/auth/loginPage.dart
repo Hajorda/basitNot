@@ -17,6 +17,8 @@ class _LoginPageState extends State<LoginPage> {
       var textColor =  Theme.of(context).colorScheme.inversePrimary;
 
       void signIn(String email, String password) async{
+        
+
         print("Email: $email, Password: $password");
         showDialog(context: context, builder: (context) {
           return Center(child: CircularProgressIndicator(),);
@@ -27,23 +29,32 @@ class _LoginPageState extends State<LoginPage> {
         print(e.code);
         if(e.code == "user-not-found"){
           print("User Not Found!");
-          Navigator.pop(context);
-          SnackBar(content: Text("data"),);
+          //Navigator.pop(context);
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: const Text('User Not Found!'),));
         }
         else if (e.code == "wrong-password"){
           print("Wrong Password");
-          Navigator.pop(context);
-          
+          //Navigator.pop(context);
+           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: const Text('Wrong Password!'),));
         }
         else if (e.code == "invalid-credential"){
-           Navigator.pop(context);
-          
+           //Navigator.pop(context);
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: const Text('invalid-credential!'),));
         
+        }
+        else{
+          String ecode = e.code;
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content:  Text(ecode),));
         }
        }
 
       
       Navigator.pop(context);
+
       }
 
       void warningMessage(String t){
