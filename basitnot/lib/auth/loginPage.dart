@@ -1,3 +1,4 @@
+import 'package:basitnot/pages/notesPage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -18,7 +19,7 @@ class _LoginPageState extends State<LoginPage> {
 
       void signIn(String email, String password) async{
         
-
+        //TODO: LOOK here weird code and must be imorove in future!
         print("Email: $email, Password: $password");
         showDialog(context: context, builder: (context) {
           return Center(child: CircularProgressIndicator(),);
@@ -54,6 +55,7 @@ class _LoginPageState extends State<LoginPage> {
 
       
       Navigator.pop(context);
+      Navigator.push(context, MaterialPageRoute(builder: (context) => notesPage()));
 
       }
 
@@ -64,6 +66,13 @@ class _LoginPageState extends State<LoginPage> {
       }
 
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        foregroundColor: Theme.of(context).colorScheme.inversePrimary,
+        elevation: 0,
+        leading: BackButton(
+              color: Theme.of(context).colorScheme.inversePrimary,),
+      ),
     body: Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,

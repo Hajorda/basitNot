@@ -42,7 +42,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: Provider.of<ThemeProvider>(context).themeData,
       home:  //const notesPage(),
-      const AuthPage(),
+      const notesPage(),
       //EditPage(Note(title: "Merhaba", creationDate: DateTime.now(), lastEditDate: DateTime.now())),
       debugShowCheckedModeBanner: false,
     );

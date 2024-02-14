@@ -1,3 +1,4 @@
+import 'package:basitnot/auth/loginPage.dart';
 import 'package:basitnot/theme/theme_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -15,7 +16,15 @@ class SettingsPage extends StatelessWidget {
   }
   @override
   Widget build(BuildContext context) {
-    final currentUser = FirebaseAuth.instance.currentUser!;
+    final currentUser = FirebaseAuth.instance.currentUser;
+      var cEmail;
+     if(currentUser==null){
+      cEmail = "None";
+     }
+     else{
+      cEmail = currentUser.email;
+     }
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Settings'), 
@@ -25,6 +34,7 @@ class SettingsPage extends StatelessWidget {
       ),
       body: Column(
         children: [
+          const SizedBox(height: 20,),
           Container(
             margin: const EdgeInsets.only(left: 25, right: 25),
             decoration: BoxDecoration(
@@ -35,13 +45,18 @@ class SettingsPage extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(currentUser.email!),
+                Text(cEmail),
                 IconButton(onPressed: () {
                   SignUserOut();
                   Navigator.pop(context);
-                }, icon:  Icon(Icons.logout))
+                }, icon:  Icon(Icons.logout)),
+                 IconButton(onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
+                }, icon:  Icon(Icons.login))
               ],
             ),),
+            
+          const SizedBox(height: 20,),
           
           //Dark Mode Switch
           Container(
