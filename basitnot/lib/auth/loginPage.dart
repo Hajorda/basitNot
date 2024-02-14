@@ -1,10 +1,14 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
    const LoginPage({super.key});
 
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
 
-
+class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
 
@@ -12,33 +16,56 @@ class LoginPage extends StatelessWidget {
     TextEditingController passwordController = TextEditingController();
       var textColor =  Theme.of(context).colorScheme.inversePrimary;
 
+      void signIn(String email, String password) async{
+        print("Email: $email, Password: $password");
+        showDialog(context: context, builder: (context) {
+          return Center(child: CircularProgressIndicator(),);
+        },);
+       try{
+         await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password);
+       }on FirebaseAuthException catch (e){
+        print(e.code);
+        if(e.code == "user-not-found"){
+          print("User Not Found!");
+          Navigator.pop(context);
+          SnackBar(content: Text("data"),);
+        }
+        else if (e.code == "wrong-password"){
+          print("Wrong Password");
+          Navigator.pop(context);
+          
+        }
+        else if (e.code == "invalid-credential"){
+           Navigator.pop(context);
+          
+        
+        }
+       }
+
+      
+      Navigator.pop(context);
+      }
+
+      void warningMessage(String t){
+         showDialog(context: context, builder: (context) {
+          return const AlertDialog(title: Text(""),);
+        },);
+      }
+
     return Scaffold(
     body: Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
             
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  width: 100,
-                  height: 100,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Theme.of(context).colorScheme.secondary
-                  ),
-                  child: Icon(Icons.person, size: 50, color: Theme.of(context).colorScheme.primary,),
-                ),
-              ],
-            ),
+            
 
           const SizedBox(height: 20,),
 
           Column(
             children: [
-              Text("Sign in your account", style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.inversePrimary)  ),
-             const SizedBox(height: 9,),
+              Text("Sign in to your account", style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.inversePrimary)  ),
+             const SizedBox(height: 5,),
               Text("Welcome Back!" , style: TextStyle(fontSize: 20, color:textColor.withOpacity(0.7))  ),
             
              const SizedBox(height: 30,),
@@ -75,7 +102,7 @@ class LoginPage extends StatelessWidget {
                       ),
                       controller: passwordController,
                     ),
-                     SizedBox(height: 10,),
+                     const SizedBox(height: 10,),
             
               Container(
                 alignment: Alignment.centerRight,
@@ -84,32 +111,41 @@ class LoginPage extends StatelessWidget {
                   ],
                 ),
               ),
+
+              const SizedBox(height: 20,),
              
               //TODO:Button
 
-              Container(
-                padding: const EdgeInsets.all(25),
-                margin: const EdgeInsets.symmetric(vertical: 20),
-                decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.secondary,
-                  borderRadius: BorderRadius.circular(10)
-                ),
-                child: TextButton(
-                  onPressed: (){
-                    //TODO: Sign in
-                    //signIn(emailController.text, passwordController.text, context);
+              GestureDetector(
+                child: Container(
+                    padding: const EdgeInsets.all(15),
+                    margin: const EdgeInsets.symmetric(horizontal: 25),
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.secondary,
+                      borderRadius: BorderRadius.circular(10)
+                    ),
+                    child: Center(
+                      child: Text("Sign in", style: TextStyle(fontSize: 20, color: Theme.of(context).colorScheme.inversePrimary, fontWeight: FontWeight.w500) ),
+                    ),
+                  ),
+                  onTap: () {
+                    signIn(emailController.text, passwordController.text,);
                   },
-                  child: Text("Sign in", style: TextStyle(fontSize: 20, color: Theme.of(context).colorScheme.inversePrimary)  ),
-                ),
               ),
+              
 
-                const SizedBox(height: 10,),
-
-                Row(children: [
-                  Expanded(child: Divider(color: textColor.withOpacity(0.7),)),
-                  Text("OR", style: TextStyle(fontSize: 16, color: textColor.withOpacity(0.7))  ),
-                  Expanded(child: Divider(color: textColor.withOpacity(0.7),)),
-                ],),
+                const SizedBox(height: 30,),
+    
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 60),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                    Expanded(child: Divider(color: textColor.withOpacity(0.7),)),
+                    Text("OR", style: TextStyle(fontSize: 16, color: textColor.withOpacity(0.7))  ),
+                    Expanded(child: Divider(color: textColor.withOpacity(0.7),)),
+                  ],),
+                ),
 
                 const SizedBox(height: 10,),
 
@@ -140,7 +176,7 @@ class LoginPage extends StatelessWidget {
                 ),
              
             
-             const SizedBox(height: 20,),
+             const SizedBox(height: 50,),
             
               Container(),
              Row(mainAxisAlignment: MainAxisAlignment.center,children: [
@@ -148,7 +184,7 @@ class LoginPage extends StatelessWidget {
                 Text("Register now.", style: TextStyle(fontSize: 16, color: textColor.withOpacity(0.7), fontWeight: FontWeight.bold)  ),
              ],
              ),
-              SizedBox(height: 30,),
+              
                 
             ],
           ),

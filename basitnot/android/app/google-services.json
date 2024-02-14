@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "696578717581",
+    "project_id": "basitnot",
+    "storage_bucket": "basitnot.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:696578717581:android:6b43ccf99f868761e0afc4",
+        "android_client_info": {
+          "package_name": "com.example.basitnot"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA_4ACew4NJbk7JiiBi1KWTAfk069kx_q0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
