@@ -1,5 +1,7 @@
+import 'package:basitnot/main.dart';
 import 'package:basitnot/models/note.dart';
 import 'package:basitnot/models/noteDatabase.dart';
+import 'package:basitnot/services/firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -42,6 +44,7 @@ class _EditPageState extends State<EditPage> {
   void updateNoteObject() {
     currentNote.title = _titleController.text;
     currentNote.content = _contentController.text;
+    currentNote.isSynced = false;
 
     currentNote.lastEditDate = DateTime.now();
   }
@@ -55,8 +58,18 @@ class _EditPageState extends State<EditPage> {
           leading: BackButton(
               color: Theme.of(context).colorScheme.inversePrimary,
               onPressed: () {
-                context.read<NoteDatabase>().editContent(widget.noteInEditing, currentNote);
-                updateNoteObject();     
+                if(isDeviceConnected.value && !currentNote.isSynced){
+                  currentNote.isSynced = true;
+                  FireStoreService().updateNote(widget.noteInEditing,currentNote);
+                  context.read<NoteDatabase>().editContent(widget.noteInEditing, currentNote);
+                }
+                else{
+                  
+                  context.read<NoteDatabase>().editContent(widget.noteInEditing, currentNote);
+                }
+                
+                updateNoteObject();
+                
                 Navigator.pop(context);         
               },
             ),

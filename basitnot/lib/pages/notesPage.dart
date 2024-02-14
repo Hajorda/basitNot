@@ -1,16 +1,15 @@
 // ignore_for_file: camel_case_types
 
-import 'dart:ffi';
-
 import 'package:basitnot/components/drawer.dart';
 import 'package:basitnot/main.dart';
 import 'package:basitnot/models/note.dart';
 import 'package:basitnot/models/noteDatabase.dart';
 import 'package:basitnot/pages/editPage.dart';
 import 'package:basitnot/services/firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:internet_connection_checker/internet_connection_checker.dart';
+
 import 'package:provider/provider.dart';
 
 class notesPage extends StatefulWidget {
@@ -24,11 +23,18 @@ class notesPage extends StatefulWidget {
 
 class _notesPageState extends State<notesPage> {
  bool result = false;
+ 
+  final currentUser = FirebaseAuth.instance.currentUser;
 @override
-  void initState() async{
+  void initState() {
     super.initState();
     readNotes();
-     result = await InternetConnectionChecker().hasConnection;
+    
+    isDeviceConnected.addListener(() {
+      setState(() {
+        result = isDeviceConnected.value;
+      });
+    });
   }
 final textController = TextEditingController();
   
@@ -52,9 +58,20 @@ final textController = TextEditingController();
               title: textController.text,
               creationDate: DateTime.now(),
               lastEditDate: DateTime.now(),
+              content: '',
             );
             context.read<NoteDatabase>().create(tempNote);
-            FireStoreService().addNote(tempNote);
+            if(isDeviceConnected.value){
+              if(currentUser != null)
+              FireStoreService().addNote(tempNote);
+              else{
+
+            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+              content: Text('You must be logged in to use this feature!'),));
+              }
+
+            }
+          
             
             // NoteDatabase.instance.create({'title': noteTitle, 'content': noteContent});
             Navigator.pop(context);
@@ -99,6 +116,12 @@ final textController = TextEditingController();
               trailing: 
                   IconButton(icon: const Icon(Icons.delete), onPressed: () {
                     context.read<NoteDatabase>().delete(notes[index]);
+                    if(isDeviceConnected.value){
+                      FireStoreService().deleteNote(notes[index]);
+                    }
+                    else{
+                      //TODO: HANDLE THE SEND LATER DATABASE DELETED
+                    }
                   },),
                   onTap: () => { 
                     print('Tapped on ${notes[index].title}'),

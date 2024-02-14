@@ -19,7 +19,22 @@ import 'firebase_options.dart';
 
 ValueNotifier<bool> isDeviceConnected = ValueNotifier(false);
 
-
+ final StreamSubscription<InternetConnectionStatus> listener =
+      InternetConnectionChecker().onStatusChange.listen(
+    (InternetConnectionStatus status) {
+      switch (status) {
+        case InternetConnectionStatus.connected:
+          // ignore: avoid_print
+          print('Data connection is available.');
+          break;
+        case InternetConnectionStatus.disconnected:
+          // ignore: avoid_print
+          print('You are disconnected from the internet.');
+          break;
+      }
+    },
+  );
+  
 void main() async{
 
 
