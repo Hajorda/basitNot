@@ -82,11 +82,11 @@ Note _noteDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = Note(
+    content: reader.readStringOrNull(offsets[0]) ?? '',
     creationDate: reader.readDateTime(offsets[1]),
     lastEditDate: reader.readDateTime(offsets[2]),
     title: reader.readString(offsets[3]),
   );
-  object.content = reader.readString(offsets[0]);
   object.id = id;
   return object;
 }
@@ -99,7 +99,7 @@ P _noteDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
-      return (reader.readString(offset)) as P;
+      return (reader.readStringOrNull(offset) ?? '') as P;
     case 1:
       return (reader.readDateTime(offset)) as P;
     case 2:

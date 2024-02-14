@@ -22,28 +22,30 @@ class _LoginPageState extends State<LoginPage> {
         //TODO: LOOK here weird code and must be imorove in future!
         print("Email: $email, Password: $password");
         showDialog(context: context, builder: (context) {
-          return Center(child: CircularProgressIndicator(),);
+          return const Center(child: CircularProgressIndicator(),);
         },);
        try{
          await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password);
+         Navigator.pop(context);
+         Navigator.push(context, MaterialPageRoute(builder: (context) => const notesPage()));
        }on FirebaseAuthException catch (e){
         print(e.code);
         if(e.code == "user-not-found"){
           print("User Not Found!");
           //Navigator.pop(context);
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: const Text('User Not Found!'),));
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            content: Text('User Not Found!'),));
         }
         else if (e.code == "wrong-password"){
           print("Wrong Password");
           //Navigator.pop(context);
-           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: const Text('Wrong Password!'),));
+           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            content:  Text('Wrong Password!'),));
         }
         else if (e.code == "invalid-credential"){
            //Navigator.pop(context);
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: const Text('invalid-credential!'),));
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            content: Text('invalid-credential!'),));
         
         }
         else{
@@ -55,7 +57,7 @@ class _LoginPageState extends State<LoginPage> {
 
       
       Navigator.pop(context);
-      Navigator.push(context, MaterialPageRoute(builder: (context) => notesPage()));
+      
 
       }
 

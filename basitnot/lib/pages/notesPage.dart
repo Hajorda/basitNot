@@ -1,11 +1,16 @@
 // ignore_for_file: camel_case_types
 
+import 'dart:ffi';
+
 import 'package:basitnot/components/drawer.dart';
+import 'package:basitnot/main.dart';
 import 'package:basitnot/models/note.dart';
 import 'package:basitnot/models/noteDatabase.dart';
 import 'package:basitnot/pages/editPage.dart';
+import 'package:basitnot/services/firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:provider/provider.dart';
 
 class notesPage extends StatefulWidget {
@@ -18,11 +23,12 @@ class notesPage extends StatefulWidget {
 }
 
 class _notesPageState extends State<notesPage> {
-
+ bool result = false;
 @override
-  void initState() {
+  void initState() async{
     super.initState();
     readNotes();
+     result = await InternetConnectionChecker().hasConnection;
   }
 final textController = TextEditingController();
   
@@ -48,6 +54,7 @@ final textController = TextEditingController();
               lastEditDate: DateTime.now(),
             );
             context.read<NoteDatabase>().create(tempNote);
+            FireStoreService().addNote(tempNote);
             
             // NoteDatabase.instance.create({'title': noteTitle, 'content': noteContent});
             Navigator.pop(context);
@@ -71,6 +78,7 @@ final textController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    
     final noteDatabase = context.watch<NoteDatabase>();
     List<Note> notes = noteDatabase.notes;
 
@@ -104,6 +112,9 @@ final textController = TextEditingController();
       ],
     ),
     floatingActionButton: FloatingActionButton(onPressed: () {
+      print(isDeviceConnected.value);
+      print("object");
+      print(result);
       createNote();
     }, child:  Icon(Icons.add,color: Theme.of(context).colorScheme.inversePrimary),),);
   }

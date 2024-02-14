@@ -9,6 +9,7 @@ class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});
 
 
+  // ignore: non_constant_identifier_names
   void SignUserOut(){
     FirebaseAuth.instance.signOut();
     print("SignOutFor user");
@@ -17,7 +18,7 @@ class SettingsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final currentUser = FirebaseAuth.instance.currentUser;
-      var cEmail;
+      String? cEmail;
      if(currentUser==null){
       cEmail = "None";
      }
@@ -45,14 +46,14 @@ class SettingsPage extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(cEmail),
+                Text(cEmail.toString(),),
                 IconButton(onPressed: () {
                   SignUserOut();
                   Navigator.pop(context);
-                }, icon:  Icon(Icons.logout)),
+                }, icon:  const Icon(Icons.logout)),
                  IconButton(onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
-                }, icon:  Icon(Icons.login))
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => const LoginPage()));
+                }, icon:  const Icon(Icons.login))
               ],
             ),),
             
