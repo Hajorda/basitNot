@@ -135,6 +135,7 @@ final textController = TextEditingController();
       ],
     ),
     floatingActionButton: FloatingActionButton(onPressed: () {
+      print(checkInternetConnection());
       print(isDeviceConnected.value);
       print("object");
       print(result);
