@@ -32,3 +32,7 @@ Runner/GeneratedPluginRegistrant.*
 !default.mode2v3
 !default.pbxuser
 !default.perspectivev3
+*/ios/Runner/GoogleService-Info.plist
+*/macos/Runner/GoogleService-Info.plist
+/Users/hajorda/Developer/GithubRep/basitNot/basitnot/macos/Runner/GoogleService-Info.plist
+*.plist
